@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Platform, StyleSheet, Text, View, FlatList, Image, TouchableOpacity, ImageBackground, Dimensions, Button, ScrollView, ListView, Alert, ActivityIndicator } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, ImageBackground, Dimensions, ScrollView, Alert } from "react-native";
 import {Actions, Scene, Router} from 'react-native-router-flux';
 import axios from 'axios';
 import AppConfig from '../config';
@@ -15,6 +15,7 @@ export default class List extends Component {
             loading: false, 
             cards: [],
             cardsLenght: '',
+            nCards: 0
         };
         this.choice = this.choice.bind(this);
    }
@@ -57,31 +58,29 @@ export default class List extends Component {
     _renderCars = () => {
         var topics = [];
         this.state.cards.map(function(item, i){
-            topics.push(
-                <View key={item.id} style={styles.item}>
-                    <View style={{flexDirection: 'row'}}>
-                        <View>
-                            <Image source={{uri: item.imageUrl}} resizeMode={'contain'} style={{width:width/2, height:height/2}} />
+                topics.push(                    
+                    <View key={item.id} style={styles.item}>
+                        <View style={{flexDirection: 'row'}}>
+                            <View>
+                                <Image source={{uri: item.imageUrl}} resizeMode={'contain'} style={{width:width/2, height:height/2}} />
+                            </View>
+                            <View style={styles.detailsCard}>
+                                <Text style={styles.txtTitle}>{item.name}</Text>
+                                <Text>Tipo: {item.type}</Text>
+                                <Text>Cor: {item.colors}</Text>
+                                <Text style={styles.contador}> {i+1} / 75</Text>
+                            </View>
                         </View>
-                        
-                        <View style={styles.detailsCard}>
-                            <Text style={styles.txtTitle}>{item.name}</Text>
-                            <Text>Tipo: {item.type}</Text>
-                            <Text>Cor: {item.colors}</Text>
-                            <Text style={styles.contador}>1/75</Text>
+                        <View style={[styles.boxBotao]}>
+                            <TouchableOpacity style={[styles.botao]} onPress={() => this.choice(item)}>
+                                <Text style={[styles.textoBotao]}>
+                                    Escolho essa carta
+                                </Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
-                    <View style={[styles.boxBotao]}>
-                        <TouchableOpacity style={[styles.botao]} onPress={() => this.choice(item)}>
-                            <Text style={[styles.textoBotao]}>
-                                Escolho essa carta
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-
-
-            )
+                )
+            
         },this);
         return topics;
     }
