@@ -4,6 +4,8 @@
 
 O app ainda está em desenvolvimento
 
+![alt text](https://image.ibb.co/cbRCZx/telas.jpg)
+
 ---
 
 ## Como rodar:
