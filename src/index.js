@@ -17,6 +17,7 @@ export default class Index extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
+      <StatusBar backgroundColor="#4682B4" barStyle="light-content" />
         <Router createReducer={reducerCreate}  getRouteStyle={getRouteStyle} navigationBarStyle={styles.navBar} titleStyle={styles.navTitle} >
           <Scene key="root">
             <Scene key="tabbar" initial={true}> 

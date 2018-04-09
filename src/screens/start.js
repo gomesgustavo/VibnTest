@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   boxBotao: {
     flex: 1,
     justifyContent: 'flex-end',
-    marginBottom: 80,
+    marginBottom: 40,
   },
   botao: {
     backgroundColor: '#3480a6',

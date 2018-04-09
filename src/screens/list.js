@@ -13,24 +13,41 @@ export default class List extends Component {
         super(props);
         this.state = {
             loading: false, 
-            cards: []
+            cards: [],
+            cardsLenght: '',
         };
         this.choice = this.choice.bind(this);
-    }
+   }
 
     componentDidMount() {
         var self = this;
         self.setState({ loading: true }, () => {
             axios.get(AppConfig.host)
-                .then(function (response) {
-                    self.setState({ cards: response.data.cards, 
-                                    loading: false });
+                .then(function (response) {    
+                    self.embaralhar(response.data.cards);
                 })
                 .catch(function (error) {
                     self.setState({loading: false});
                     Alert.alert("Ops", AppConfig.geralErro);
                 })
         })
+    }
+
+    embaralhar(array) {
+        var self = this;
+        var indice_atual = array.length, valor_temporario, indice_aleatorio;
+        while (0 !== indice_atual) {
+     
+            indice_aleatorio = Math.floor(Math.random() * indice_atual);
+            indice_atual -= 1;
+     
+            valor_temporario = array[indice_atual];
+            array[indice_atual] = array[indice_aleatorio];
+            array[indice_aleatorio] = valor_temporario;
+        }         
+        self.setState({ cards: array,
+                        cardsLenght: array.length,
+                        loading: false });
     }
 
     choice(item){
@@ -50,7 +67,7 @@ export default class List extends Component {
                         <View style={styles.detailsCard}>
                             <Text style={styles.txtTitle}>{item.name}</Text>
                             <Text>Tipo: {item.type}</Text>
-                            <Text>Cor:{item.colors}</Text>
+                            <Text>Cor: {item.colors}</Text>
                             <Text style={styles.contador}>1/75</Text>
                         </View>
                     </View>
@@ -65,7 +82,7 @@ export default class List extends Component {
 
 
             )
-        }, this);
+        },this);
         return topics;
     }
 
@@ -74,9 +91,9 @@ export default class List extends Component {
             <View style={styles.container}>
                 <ImageBackground source={require('../images/bg.png')} style={styles.backgroundImage}>
                     
-                    <Spinner visible={this.state.loading} textContent={"Carregando..."} textStyle={{ color: '#FFF' }} />
+                    <Spinner visible={this.state.loading} animation='slide' textContent={"Aguarde..."} textStyle={{ color: '#FFF' }} />
 
-                    <Text style={styles.contadorTopo}> Total de cartas: 75/100 </Text>
+                    <Text style={styles.contadorTopo}> Total de cartas: 75/{this.state.cardsLenght} </Text>
                     <ScrollView>
                         {this._renderCars()}
                     </ScrollView>
