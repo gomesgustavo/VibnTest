@@ -3,7 +3,8 @@ import { StyleSheet, Text, View, Image, Dimensions, Alert, ImageBackground, Touc
 import axios from 'axios';
 import { Actions, Scene, Router } from 'react-native-router-flux';
 import Spinner from 'react-native-loading-spinner-overlay';
-import AppConfig from '../config'
+import AppConfig from '../config';
+import cor from "../constants/colors";
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
@@ -39,7 +40,7 @@ export default class Card extends Component {
         return (
             <View style={styles.container}>
                 <ImageBackground source={require('../images/bg.png')} style={styles.backgroundImage}>
-                    <Spinner visible={this.state.loading} animation='slide' textContent={"Carregando..."} textStyle={{ color: '#FFF' }} />
+                    <Spinner visible={this.state.loading} animation='slide' textContent={"Carregando..."} textStyle={{ color: cor.branco }} />
                     <View style={styles.item}>
                         <Image source={{ uri: this.state.card.imageUrl }} resizeMode={'contain'} style={{ width: width / 2, height: height / 2 }} />
                         {this.state.card.imageUrl ?
@@ -53,7 +54,7 @@ export default class Card extends Component {
                                     <Text style={styles.txtDetails}> LEALDADE: {this.state.card.loyalty} </Text>
                                     : null}
                             </ScrollView>
-                            :
+                        :
                             null
                         }
 
@@ -62,7 +63,7 @@ export default class Card extends Component {
                         <TouchableOpacity style={[styles.botao]} onPress={() => Actions.pop()}>
                             <Text style={[styles.textoBotao]}>
                                 Voltar para listagem
-                    </Text>
+                            </Text>
                         </TouchableOpacity>
                     </View>
                 </ImageBackground>
@@ -82,7 +83,7 @@ const styles = StyleSheet.create({
     },
     txtDetails: {
         fontSize: 14,
-        color: 'black',
+        color: cor.preto,
     },
     boxBotao: {
         flex: 1,
@@ -92,7 +93,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     botao: {
-        backgroundColor: '#3480a6',
+        backgroundColor: cor.azulEscuro,
         height: 50,
         width: 300,
         borderRadius: 6,
@@ -101,14 +102,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     textoBotao: {
-        color: '#fff',
+        color: cor.branco,
         fontSize: 16,
         fontWeight: 'bold'
     },
     item: {
-        backgroundColor: '#FFF',
+        backgroundColor: cor.branco,
         borderWidth: 0.8,
-        borderColor: '#999',
+        borderColor: cor.cinza,
         height: height - 180,
         margin: 10,
         paddingLeft: 10,

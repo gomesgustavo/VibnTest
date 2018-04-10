@@ -4,6 +4,7 @@ import { Actions, Scene, Router } from 'react-native-router-flux';
 import axios from 'axios';
 import AppConfig from '../config';
 import Spinner from 'react-native-loading-spinner-overlay';
+import cor from "../constants/colors";
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
@@ -56,7 +57,7 @@ export default class List extends Component {
         Actions.card({ itemId: item.id });
     }
 
-    _renderCards(){
+    _renderCards() {
         var topics = [];
         var cardsSlice = this.state.cards.slice(0, 75);
         cardsSlice.map(function (item, i) {
@@ -77,7 +78,7 @@ export default class List extends Component {
                         <TouchableOpacity style={[styles.botao]} onPress={() => this.choice(item)}>
                             <Text style={[styles.textoBotao]}>
                                 Escolho essa carta
-                                </Text>
+                            </Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -94,7 +95,7 @@ export default class List extends Component {
                     <Spinner visible={this.state.loading} animation='slide' textContent={"Aguarde, estamos embaralhando suas cartas..."} textStyle={{ color: '#FFF', textAlign: 'center' }} />
                     {this.state.cardsLength > 0 ?
                         <Text style={styles.contadorTopo}> Total de cartas: 75/{this.state.cardsLength} </Text>
-                        : null}
+                    : null}
                     <ScrollView>
                         {this._renderCards()}
                     </ScrollView>
@@ -120,7 +121,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     botao: {
-        backgroundColor: '#3480a6',
+        backgroundColor: cor.azulEscuro,
         height: 50,
         width: 300,
         borderRadius: 6,
@@ -129,23 +130,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     textoBotao: {
-        color: '#fff',
+        color: cor.branco,
         fontSize: 16,
         fontWeight: 'bold'
     },
-    box: {
-        padding: 10,
-        marginTop: 3,
-        backgroundColor: '#d9f9b1',
-        alignItems: 'center',
-    },
-    text: {
-        color: '#4f603c'
-    },
     item: {
-        backgroundColor: '#FFF',
+        backgroundColor: cor.branco,
         borderWidth: 0.8,
-        borderColor: '#999',
+        borderColor: cor.cinza,
         margin: 10,
         paddingLeft: 10,
         paddingRight: 10,
@@ -158,19 +150,20 @@ const styles = StyleSheet.create({
         flex: 1
     },
     txtTitle: {
-        color: '#4682B4',
+        color: cor.azulClaro,
         fontSize: 16,
         fontWeight: 'bold',
         marginBottom: 6
     },
     contador: {
         textAlign: 'center',
-        color: '#4682B4',
+        color: cor.a,
         fontSize: 24,
         fontWeight: 'bold',
         marginTop: 20
     },
     contadorTopo: {
+        color: cor.azulEscuro,
         marginTop: 10,
         marginBottom: 10,
         textAlign: 'center',

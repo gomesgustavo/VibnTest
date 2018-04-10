@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {  StyleSheet,  Alert,  BackHandler,  InteractionManager,  StatusBar,  View,  TouchableOpacity} from 'react-native';
 import {  Route,  Router,  Reducer,  Actions,  Scene,  ActionConst} from 'react-native-router-flux';
+import cor from "./constants/colors";
 
 //rotas
 import Start from "./screens/start";
@@ -11,7 +12,7 @@ export default class Index extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-      <StatusBar backgroundColor="#4682B4" barStyle="light-content" />
+      <StatusBar backgroundColor={cor.azulClaro} barStyle="light-content" />
         <Router createReducer={reducerCreate}  getRouteStyle={getRouteStyle} navigationBarStyle={styles.navBar} titleStyle={styles.navTitle} >
           <Scene key="root">
             <Scene key="tabbar" initial={true}> 
@@ -36,7 +37,7 @@ const reducerCreate = params => {
 const getRouteStyle = (props, computedProps) => {
   const style = {
     flex:             1,
-    backgroundColor: 'white',
+    backgroundColor: cor.branco,
     shadowColor:      null,
     shadowOffset:     null,
     shadowOpacity:    null,
@@ -49,12 +50,12 @@ const getRouteStyle = (props, computedProps) => {
 
 const styles = StyleSheet.create({
   navBar: {
-    backgroundColor: '#3480a6',
+    backgroundColor: cor.azulEscuro,
     borderBottomWidth: 0,
     elevation: 2
   },
   navTitle: {
-    color: '#FFF',
+    color: cor.branco,
     fontWeight: '600',
     fontSize: 18
   }

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity, ImageBackground, Dimensions } from "react-native";
 import { Actions } from "react-native-router-flux";
+import cor from "../constants/colors";
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   botao: {
-    backgroundColor: '#3480a6',
+    backgroundColor: cor.azulEscuro,
     height: 50,
     width: 300,
     borderRadius: 6,
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   textoBotao: {
-    color: '#fff',
+    color: cor.branco,
     fontSize: 16,
     fontWeight: 'bold'
   },
