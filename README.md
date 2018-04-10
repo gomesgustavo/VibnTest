@@ -2,7 +2,7 @@
 
 # Teste da Vibn
 
-O app ainda está em desenvolvimento
+Desafio: https://bitbucket.org/dugin/vibn-test/
 
 ![alt text](https://image.ibb.co/cbRCZx/telas.jpg)
 
