@@ -8,12 +8,6 @@ import List from "./screens/list";
 import Card from "./screens/card";
 
 export default class Index extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-    }
-  }
-
   render() {
     return (
       <View style={{flex: 1}}>
