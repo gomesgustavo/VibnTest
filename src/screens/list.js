@@ -14,7 +14,7 @@ export default class List extends Component {
         this.state = {
             loading: false, 
             cards: [],
-            cardsLenght: '',
+            cardsLength: '',
             nCards: 0
         };
         this.choice = this.choice.bind(this);
@@ -38,7 +38,6 @@ export default class List extends Component {
         var self = this;
         var indice_atual = array.length, valor_temporario, indice_aleatorio;
         while (0 !== indice_atual) {
-     
             indice_aleatorio = Math.floor(Math.random() * indice_atual);
             indice_atual -= 1;
      
@@ -47,7 +46,7 @@ export default class List extends Component {
             array[indice_aleatorio] = valor_temporario;
         }         
         self.setState({ cards: array,
-                        cardsLenght: array.length,
+                        cardsLength: array.length,
                         loading: false });
     }
 
@@ -57,8 +56,9 @@ export default class List extends Component {
 
     _renderCars = () => {
         var topics = [];
-        this.state.cards.map(function(item, i){
-                topics.push(                    
+        var cardsSlice = this.state.cards.slice(0, 75);
+        cardsSlice.map(function(item, i){
+            topics.push(                    
                     <View key={item.id} style={styles.item}>
                         <View style={{flexDirection: 'row'}}>
                             <View>
@@ -80,7 +80,6 @@ export default class List extends Component {
                         </View>
                     </View>
                 )
-            
         },this);
         return topics;
     }
@@ -91,8 +90,9 @@ export default class List extends Component {
                 <ImageBackground source={require('../images/bg.png')} style={styles.backgroundImage}>
                     
                     <Spinner visible={this.state.loading} animation='slide' textContent={"Aguarde..."} textStyle={{ color: '#FFF' }} />
-
-                    <Text style={styles.contadorTopo}> Total de cartas: 75/{this.state.cardsLenght} </Text>
+                    { this.state.cardsLength > 0 ?
+                    <Text style={styles.contadorTopo}> Total de cartas: 75/{this.state.cardsLength} </Text> 
+                    :null}
                     <ScrollView>
                         {this._renderCars()}
                     </ScrollView>

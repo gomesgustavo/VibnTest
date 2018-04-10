@@ -25,6 +25,7 @@ export default class Card extends Component {
             .then(function (response) {
                 self.setState({ card: response.data.card, 
                                 loading: false });
+                console.log("this.state.card.length >>", self.state.card);
                 
             })
             .catch(function (error) {
@@ -41,13 +42,22 @@ export default class Card extends Component {
           <Spinner visible={this.state.loading} animation='slide' textContent={"Carregando..."} textStyle={{ color: '#FFF' }} />
           <View style={styles.item}>
             <Image source={{uri: this.state.card.imageUrl}} resizeMode={'contain'} style={{width:width/2, height:height/2 }} />
-            <ScrollView>
+            {this.state.card.imageUrl ?    
+            <ScrollView>   
                 <Text style={styles.txtDetails}> NOME: {this.state.card.name} </Text>
                 <Text style={styles.txtDetails}> CUSTO DE MANA: {this.state.card.manaCost} </Text>
                 <Text style={styles.txtDetails}> CORES: {this.state.card.colors} </Text>
                 <Text style={styles.txtDetails}> TIPO: {this.state.card.type} </Text>
                 <Text style={styles.txtDetails}> DESCRIÇÃO: {this.state.card.text} </Text>
+                { this.state.card.loyalty ?
+                <Text style={styles.txtDetails}> LEALDADE: {this.state.card.loyalty} </Text> 
+                : null }
             </ScrollView>
+            :
+            null    
+            }
+                
+            
           </View>
             <View style={[styles.boxBotao]}>
                 <TouchableOpacity style={[styles.botao]} onPress={() => Actions.pop()}>
