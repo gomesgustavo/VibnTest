@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Platform, StyleSheet, Text, View, FlatList, Image, TouchableOpacity, ImageBackground, Dimensions, Button, ScrollView, ListView, Alert, ActivityIndicator } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, ImageBackground, Dimensions, ScrollView, Alert } from "react-native";
 import {Actions, Scene, Router} from 'react-native-router-flux';
 import axios from 'axios';
 import AppConfig from '../config';
@@ -13,18 +13,19 @@ export default class List extends Component {
         super(props);
         this.state = {
             loading: false, 
-            cards: []
+            cards: [],
+            cardsLength: '',
+            nCards: 0
         };
         this.choice = this.choice.bind(this);
-    }
+   }
 
     componentDidMount() {
         var self = this;
         self.setState({ loading: true }, () => {
             axios.get(AppConfig.host)
-                .then(function (response) {
-                    self.setState({ cards: response.data.cards, 
-                                    loading: false });
+                .then(function (response) {    
+                    self.embaralhar(response.data.cards);
                 })
                 .catch(function (error) {
                     self.setState({loading: false});
@@ -33,39 +34,53 @@ export default class List extends Component {
         })
     }
 
+    embaralhar(array) {
+        var self = this;
+        var indice_atual = array.length, valor_temporario, indice_aleatorio;
+        while (0 !== indice_atual) {
+            indice_aleatorio = Math.floor(Math.random() * indice_atual);
+            indice_atual -= 1;
+     
+            valor_temporario = array[indice_atual];
+            array[indice_atual] = array[indice_aleatorio];
+            array[indice_aleatorio] = valor_temporario;
+        }         
+        self.setState({ cards: array,
+                        cardsLength: array.length,
+                        loading: false });
+    }
+
     choice(item){
         Actions.card({itemId: item.id});
     }
 
     _renderCars = () => {
         var topics = [];
-        this.state.cards.map(function(item, i){
-            topics.push(
-                <View key={item.id} style={styles.item}>
-                    <View style={{flexDirection: 'row'}}>
-                        <View>
-                            <Image source={{uri: item.imageUrl}} resizeMode={'contain'} style={{width:width/2, height:height/2}} />
+        var cardsSlice = this.state.cards.slice(0, 75);
+        cardsSlice.map(function(item, i){
+            topics.push(                    
+                    <View key={item.id} style={styles.item}>
+                        <View style={{flexDirection: 'row'}}>
+                            <View>
+                                <Image source={{uri: item.imageUrl}} resizeMode={'contain'} style={{width:width/2, height:height/2}} />
+                            </View>
+                            <View style={styles.detailsCard}>
+                                <Text style={styles.txtTitle}>{item.name}</Text>
+                                <Text>Tipo: {item.type}</Text>
+                                <Text>Cor: {item.colors}</Text>
+                                <Text style={styles.contador}> {i+1} / 75</Text>
+                            </View>
                         </View>
-                        
-                        <View style={styles.detailsCard}>
-                            <Text style={styles.txtTitle}>{item.name}</Text>
-                            <Text>Tipo: {item.type}</Text>
-                            <Text>Cor:{item.colors}</Text>
-                            <Text style={styles.contador}>1/75</Text>
+                        <View style={[styles.boxBotao]}>
+                            <TouchableOpacity style={[styles.botao]} onPress={() => this.choice(item)}>
+                                <Text style={[styles.textoBotao]}>
+                                    Escolho essa carta
+                                </Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
-                    <View style={[styles.boxBotao]}>
-                        <TouchableOpacity style={[styles.botao]} onPress={() => this.choice(item)}>
-                            <Text style={[styles.textoBotao]}>
-                                Escolho essa carta
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-
-
-            )
-        }, this);
+                )
+        },this);
         return topics;
     }
 
@@ -74,9 +89,10 @@ export default class List extends Component {
             <View style={styles.container}>
                 <ImageBackground source={require('../images/bg.png')} style={styles.backgroundImage}>
                     
-                    <Spinner visible={this.state.loading} textContent={"Carregando..."} textStyle={{ color: '#FFF' }} />
-
-                    <Text style={styles.contadorTopo}> Total de cartas: 75/100 </Text>
+                    <Spinner visible={this.state.loading} animation='slide' textContent={"Aguarde..."} textStyle={{ color: '#FFF' }} />
+                    { this.state.cardsLength > 0 ?
+                    <Text style={styles.contadorTopo}> Total de cartas: 75/{this.state.cardsLength} </Text> 
+                    :null}
                     <ScrollView>
                         {this._renderCars()}
                     </ScrollView>

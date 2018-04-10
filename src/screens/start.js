@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Platform, StyleSheet, Text, View, Image, TouchableOpacity,ImageBackground, Dimensions, Button } from "react-native";
-import {Actions, Scene, Router} from 'react-native-router-flux';
+import { StyleSheet, Text, View, Image, TouchableOpacity,ImageBackground, Dimensions } from "react-native";
+import {Actions} from 'react-native-router-flux';
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   boxBotao: {
     flex: 1,
     justifyContent: 'flex-end',
-    marginBottom: 80,
+    marginBottom: 40,
   },
   botao: {
     backgroundColor: '#3480a6',

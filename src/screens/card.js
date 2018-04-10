@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Platform, StyleSheet, Text, View, Image, Dimensions, Alert, ImageBackground, TouchableOpacity, ScrollView } from "react-native";
+import { StyleSheet, Text, View, Image, Dimensions, Alert, ImageBackground, TouchableOpacity, ScrollView } from "react-native";
 import axios from 'axios';
 import {Actions, Scene, Router} from 'react-native-router-flux';
+import Spinner from 'react-native-loading-spinner-overlay';
 import AppConfig from '../config'
 
 var width = Dimensions.get('window').width;
@@ -11,38 +12,52 @@ export default class Card extends Component {
     constructor(){
         super();
         this.state = {
+            loading: false,
             card: []
         }
     }
 
     componentDidMount(){
-        console.log("KEY --> ", this.props.itemId );
         var self = this;
         this.setState({itemId: this.props.itemId});
-        axios.get(AppConfig.host+'/'+this.props.itemId)
-        .then(function (response) {
-            console.log(response.data);
-            self.setState({ card: response.data.card });
+        self.setState({ loading: true }, () => {
+            axios.get(AppConfig.host+'/'+this.props.itemId)
+            .then(function (response) {
+                self.setState({ card: response.data.card, 
+                                loading: false });
+                console.log("this.state.card.length >>", self.state.card);
+                
+            })
+            .catch(function (error) {
+                self.setState({loading: false});
+                Alert.alert("Ops", AppConfig.geralErro)
+            });
         })
-        .catch(function (error) {
-            console.log(error);
-            Alert.alert("Ops", AppConfig.geralErro)
-        });
     }
 
     render() {
     return (
       <View style={styles.container}>
           <ImageBackground source={require('../images/bg.png')} style={styles.backgroundImage}>
+          <Spinner visible={this.state.loading} animation='slide' textContent={"Carregando..."} textStyle={{ color: '#FFF' }} />
           <View style={styles.item}>
             <Image source={{uri: this.state.card.imageUrl}} resizeMode={'contain'} style={{width:width/2, height:height/2 }} />
-            <ScrollView>
+            {this.state.card.imageUrl ?    
+            <ScrollView>   
                 <Text style={styles.txtDetails}> NOME: {this.state.card.name} </Text>
                 <Text style={styles.txtDetails}> CUSTO DE MANA: {this.state.card.manaCost} </Text>
                 <Text style={styles.txtDetails}> CORES: {this.state.card.colors} </Text>
                 <Text style={styles.txtDetails}> TIPO: {this.state.card.type} </Text>
                 <Text style={styles.txtDetails}> DESCRIÇÃO: {this.state.card.text} </Text>
+                { this.state.card.loyalty ?
+                <Text style={styles.txtDetails}> LEALDADE: {this.state.card.loyalty} </Text> 
+                : null }
             </ScrollView>
+            :
+            null    
+            }
+                
+            
           </View>
             <View style={[styles.boxBotao]}>
                 <TouchableOpacity style={[styles.botao]} onPress={() => Actions.pop()}>
